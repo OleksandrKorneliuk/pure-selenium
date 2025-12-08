@@ -1,0 +1,12 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="Suite" parallel="false">
+
+    <parameter name="browser" value="chrome"/>
+
+    <test name="Regression">
+        <classes>
+            <class name="com.solvd.pureSelenium.gui.pages.desktop.HomePageTest"/>
+            <class name="com.solvd.pureSelenium.gui.pages.desktop.MyAccountPageTest"/>
+        </classes>
+    </test>
+</suite>
