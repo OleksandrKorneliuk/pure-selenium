@@ -1,7 +1,10 @@
 package com.solvd.pureSelenium.gui.pages.desktop;
 
+import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
 import org.testng.annotations.*;
@@ -17,14 +20,20 @@ public class HomePageTest {
     protected WebDriver driver;
 
     @BeforeMethod
-    @Parameters({"browser"})
-    public void setUp(@Optional("chrome") String browser) throws MalformedURLException {
-        DesiredCapabilities capabilities = new DesiredCapabilities();
+    @Parameters({"browser", "grid_url"})
+    public void setUp(@Optional("chrome") String browser, String gridURL) throws MalformedURLException {
+        MutableCapabilities capabilities = setBrowserOptions(browser);
 
-        capabilities.setBrowserName(browser);
-
-        driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), capabilities);
+        driver = new RemoteWebDriver(new URL(gridURL), capabilities);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+    }
+
+    private MutableCapabilities setBrowserOptions(String browser) {
+        return switch (browser.toLowerCase()) {
+            case "firefox" -> new FirefoxOptions();
+            case "edge" -> new EdgeOptions();
+            default -> new ChromeOptions();
+        };
     }
 
     @Test

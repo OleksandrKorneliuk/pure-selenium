@@ -2,6 +2,7 @@
 <suite name="Suite" parallel="false">
 
     <parameter name="browser" value="chrome"/>
+    <parameter name="grid_url" value="http://localhost:4444/wd/hub"/>
 
     <test name="Regression">
         <classes>

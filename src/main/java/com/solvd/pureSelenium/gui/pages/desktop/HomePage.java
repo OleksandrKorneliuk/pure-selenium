@@ -1,5 +1,6 @@
 package com.solvd.pureSelenium.gui.pages.desktop;
 
+import com.solvd.pureSelenium.gui.utils.WaitUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.TimeoutException;
@@ -15,9 +16,11 @@ import java.util.List;
 
 public class HomePage {
 
-    private static final Logger LOG = LogManager.getLogger(HomePage.class);
+    private static final Logger LOGGER = LogManager.getLogger(HomePage.class);
 
     protected WebDriver driver;
+
+    private final WaitUtil WAIT;
 
     private final static String BASE_URL = "https://prm.com/";
 
@@ -27,13 +30,13 @@ public class HomePage {
     @FindBy(css = "a[href='/us']")
     private WebElement usRegionLink;
 
-    @FindBy(css = "button > img[alt='submit button']")
+    @FindBy(css = "button.DropdownList_dropdownSubmitButton__FNidW")
     private WebElement submitRegionButton;
 
     @FindBy(css = "button[data-test='cookiesAcceptMandatoryButton']")
     private WebElement rejectOptionalCookiesButton;
 
-    @FindBy(css = "button[data-test^='geolocation']")
+    @FindBy(css = "button[data-test='geolocationPopupStayButton']")
     private WebElement geolocationStayButton;
 
     @FindBy(css = "a[href=\"/us/c/men\"] button.btnPrimaryLight")
@@ -44,12 +47,13 @@ public class HomePage {
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
+        WAIT = new WaitUtil(driver);
         PageFactory.initElements(driver, this);
     }
 
     public void open() {
         driver.get(BASE_URL);
-        LOG.info("Opening PRM home page...");
+        LOGGER.info("Opening PRM home page...");
 
         selectRegion();
         clickStayingChosenRegionBtn();
@@ -57,29 +61,20 @@ public class HomePage {
     }
 
     private void selectRegion() {
-        LOG.info("Choosing region...");
-        clickIfAppear(countrySelector);
-        clickIfAppear(usRegionLink);
-        clickIfAppear(submitRegionButton);
+        LOGGER.info("Choosing region...");
+        WAIT.clickIfAppear(countrySelector);
+        WAIT.clickIfAppear(usRegionLink);
+        WAIT.clickIfAppear(submitRegionButton);
     }
 
     private void clickStayingChosenRegionBtn() {
-        LOG.info("Click on \"Stay in chosen region\" button");
-        clickIfAppear(geolocationStayButton);
+        LOGGER.info("Click on \"Stay in chosen region\" button");
+        WAIT.clickIfAppear(geolocationStayButton);
     }
 
     private void clickRejectOptionalCookiesBtn() {
-        LOG.info("Rejection optional cookies...");
-        clickIfAppear(rejectOptionalCookiesButton);
-    }
-
-    private void clickIfAppear(WebElement element) {
-        try {
-            new WebDriverWait(driver, Duration.ofSeconds(10)).until(
-                    ExpectedConditions.elementToBeClickable(element));
-            element.click();
-        } catch (TimeoutException ignored) {
-        }
+        LOGGER.info("Rejection optional cookies...");
+        WAIT.clickIfAppear(rejectOptionalCookiesButton);
     }
 
     public boolean isPageOpened() {
@@ -92,13 +87,13 @@ public class HomePage {
     }
 
     public void clickMenCategoryBtn() {
-        LOG.debug("Click \"Men\" button");
-        clickIfAppear(menCategoryButton);
+        LOGGER.debug("Click \"Men\" button");
+        WAIT.clickIfAppear(menCategoryButton);
     }
 
     public MyAccountPage goToMyAccountPage() {
-        LOG.debug("Click \"My Account page\" link");
-        clickIfAppear(myAccountLink);
+        LOGGER.debug("Click \"My Account page\" link");
+        WAIT.clickIfAppear(myAccountLink);
         switchToNewestWindow();
 
         return new MyAccountPage(driver);

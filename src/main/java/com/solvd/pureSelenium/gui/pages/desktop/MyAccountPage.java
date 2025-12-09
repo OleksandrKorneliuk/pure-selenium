@@ -15,7 +15,7 @@ import java.util.List;
 
 public class MyAccountPage {
 
-    private static final Logger LOG = LogManager.getLogger(MyAccountPage.class);
+    private static final Logger LOGGER = LogManager.getLogger(MyAccountPage.class);
 
     private static final String BASE_URL = "my-account/login";
 
@@ -45,7 +45,7 @@ public class MyAccountPage {
     }
 
     public void signIn(String email, String password) {
-        LOG.debug("Filling in user details...");
+        LOGGER.debug("Filling in user details...");
         emailInput.sendKeys(email);
         passwordInput.sendKeys(password);
         submitButton.click();
