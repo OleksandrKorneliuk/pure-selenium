@@ -15,7 +15,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 
-public abstract class AbstractTest {
+public abstract class BaseTest {
 
     private static final ThreadLocal<WebDriver> drivers = new ThreadLocal<>();
 
