@@ -1,6 +1,5 @@
 package com.solvd.pureSelenium.gui.pages.desktop;
 
-import com.solvd.pureSelenium.gui.utils.WaitUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.TimeoutException;
@@ -20,9 +19,9 @@ public class HomePage {
 
     protected WebDriver driver;
 
-    private final WaitUtil WAIT;
+    private final WebDriverWait wait;
 
-    private final static String BASE_URL = "https://prm.com/";
+    private static final String BASE_URL = "https://prm.com/";
 
     @FindBy(css = "div > img[alt='dropdown button']")
     private WebElement countrySelector;
@@ -47,7 +46,7 @@ public class HomePage {
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
-        WAIT = new WaitUtil(driver);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         PageFactory.initElements(driver, this);
     }
 
@@ -62,25 +61,31 @@ public class HomePage {
 
     private void selectRegion() {
         LOGGER.info("Choosing region...");
-        WAIT.clickIfAppear(countrySelector);
-        WAIT.clickIfAppear(usRegionLink);
-        WAIT.clickIfAppear(submitRegionButton);
+        clickIfAppear(countrySelector);
+        clickIfAppear(usRegionLink);
+        clickIfAppear(submitRegionButton);
+    }
+
+    private void clickIfAppear(WebElement element) {
+        try {
+            wait.until(ExpectedConditions.elementToBeClickable(element)).click();
+        } catch (TimeoutException ignored) {
+        }
     }
 
     private void clickStayingChosenRegionBtn() {
         LOGGER.info("Click on \"Stay in chosen region\" button");
-        WAIT.clickIfAppear(geolocationStayButton);
+        clickIfAppear(geolocationStayButton);
     }
 
     private void clickRejectOptionalCookiesBtn() {
         LOGGER.info("Rejection optional cookies...");
-        WAIT.clickIfAppear(rejectOptionalCookiesButton);
+        clickIfAppear(rejectOptionalCookiesButton);
     }
 
     public boolean isPageOpened() {
         try {
-            return new WebDriverWait(driver, Duration.ofSeconds(10))
-                    .until(ExpectedConditions.urlContains(BASE_URL));
+            return wait.until(ExpectedConditions.urlContains(BASE_URL));
         } catch (TimeoutException e) {
             return false;
         }
@@ -88,12 +93,12 @@ public class HomePage {
 
     public void clickMenCategoryBtn() {
         LOGGER.debug("Click \"Men\" button");
-        WAIT.clickIfAppear(menCategoryButton);
+        clickIfAppear(menCategoryButton);
     }
 
     public MyAccountPage goToMyAccountPage() {
         LOGGER.debug("Click \"My Account page\" link");
-        WAIT.clickIfAppear(myAccountLink);
+        clickIfAppear(myAccountLink);
         switchToNewestWindow();
 
         return new MyAccountPage(driver);

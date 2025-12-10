@@ -21,6 +21,8 @@ public class MyAccountPage {
 
     protected WebDriver driver;
 
+    private final WebDriverWait wait;
+
     @FindBy(css = "input[id='_username']")
     private WebElement emailInput;
 
@@ -32,13 +34,13 @@ public class MyAccountPage {
 
     public MyAccountPage(WebDriver driver) {
         this.driver = driver;
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         PageFactory.initElements(driver, this);
     }
 
     public boolean isPageOpened() {
         try {
-            return new WebDriverWait(driver, Duration.ofSeconds(10))
-                    .until(ExpectedConditions.urlContains(BASE_URL));
+            return wait.until(ExpectedConditions.urlContains(BASE_URL));
         } catch (TimeoutException e) {
             return false;
         }
