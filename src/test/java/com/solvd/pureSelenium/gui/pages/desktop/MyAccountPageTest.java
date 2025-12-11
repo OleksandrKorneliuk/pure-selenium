@@ -1,6 +1,8 @@
 package com.solvd.pureSelenium.gui.pages.desktop;
 
-import com.solvd.pureSelenium.gui.common.BaseTest;
+import com.solvd.pureSelenium.gui.common.AbstractTest;
+import com.solvd.pureSelenium.gui.common.HomePageBase;
+import com.solvd.pureSelenium.gui.common.MyAccountPageBase;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -9,16 +11,16 @@ import org.testng.annotations.*;
 import java.time.Duration;
 import java.util.Objects;
 
-public class MyAccountPageTest extends BaseTest {
+public class MyAccountPageTest extends AbstractTest {
 
     @Test
     public void testUserSignIn() {
-        HomePage homePage = new HomePage(getDriver());
+        HomePageBase homePage = new HomePage(getDriver());
         homePage.open();
         Assert.assertTrue(homePage.isPageOpened(), "Home page doesn't open.");
 
         homePage.clickMenCategoryBtn();
-        MyAccountPage myAccountPage = homePage.goToMyAccountPage();
+        MyAccountPageBase myAccountPage = homePage.goToMyAccountPage();
         Assert.assertTrue(myAccountPage.isPageOpened(), "My Account page doesn't open.");
 
         String email = getEnvVariable("TEST_EMAIL");

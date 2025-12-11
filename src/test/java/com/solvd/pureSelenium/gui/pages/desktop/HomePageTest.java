@@ -1,17 +1,18 @@
 package com.solvd.pureSelenium.gui.pages.desktop;
 
-import com.solvd.pureSelenium.gui.common.BaseTest;
+import com.solvd.pureSelenium.gui.common.AbstractTest;
+import com.solvd.pureSelenium.gui.common.HomePageBase;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
 import java.util.Objects;
 
 
-public class HomePageTest extends BaseTest {
+public class HomePageTest extends AbstractTest {
 
     @Test
     public void testNavigateToMenCategory() {
-        HomePage homePage = new HomePage(getDriver());
+        HomePageBase homePage = new HomePage(getDriver());
         homePage.open();
         Assert.assertTrue(homePage.isPageOpened(), "Home page doesn't open.");
 

@@ -1,16 +1,17 @@
 package com.solvd.pureSelenium.gui.pages.desktop;
 
 import com.solvd.pureSelenium.gui.common.HomePageBase;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.solvd.pureSelenium.gui.common.MyAccountPageBase;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class HomePage extends HomePageBase {
 
-    private static final Logger LOGGER = LogManager.getLogger(HomePage.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HomePage.class);
 
     private static final String BASE_URL = "https://prm.com/";
 
@@ -74,7 +75,7 @@ public class HomePage extends HomePageBase {
     }
 
     @Override
-    public MyAccountPage goToMyAccountPage() {
+    public MyAccountPageBase goToMyAccountPage() {
         LOGGER.debug("Click \"My Account page\" link");
         clickIfAppear(myAccountLink);
         switchToNewestWindow();

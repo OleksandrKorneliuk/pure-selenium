@@ -15,7 +15,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 
-public abstract class BaseTest {
+public abstract class AbstractTest {
+
+    private static final int PAGE_LOAD_TO = 15;
 
     private static final ThreadLocal<WebDriver> drivers = new ThreadLocal<>();
 
@@ -29,7 +31,7 @@ public abstract class BaseTest {
         MutableCapabilities capabilities = setBrowserOptions(browser);
 
         WebDriver driver = new RemoteWebDriver(new URL(gridURL), capabilities);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(PAGE_LOAD_TO));
 
         drivers.set(driver);
     }
