@@ -1,46 +1,19 @@
 package com.solvd.pureSelenium.gui.pages.desktop;
 
-import org.openqa.selenium.MutableCapabilities;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeOptions;
-import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
+import com.solvd.pureSelenium.gui.common.BaseTest;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-import java.net.MalformedURLException;
 import java.time.Duration;
 import java.util.Objects;
-import java.net.URL;
 
-public class MyAccountPageTest {
-
-    protected WebDriver driver;
-
-    @BeforeMethod
-    @Parameters({"browser", "grid_url"})
-    public void setUp(@Optional("chrome") String browser, String gridURL) throws MalformedURLException {
-        MutableCapabilities capabilities = setBrowserOptions(browser);
-
-        driver = new RemoteWebDriver(new URL(gridURL), capabilities);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-    }
-
-    private MutableCapabilities setBrowserOptions(String browser) {
-        return switch (browser.toLowerCase()) {
-            case "firefox" -> new FirefoxOptions();
-            case "edge" -> new EdgeOptions();
-            default -> new ChromeOptions();
-        };
-    }
+public class MyAccountPageTest extends BaseTest {
 
     @Test
     public void testUserSignIn() {
-        HomePage homePage = new HomePage(driver);
+        HomePage homePage = new HomePage(getDriver());
         homePage.open();
         Assert.assertTrue(homePage.isPageOpened(), "Home page doesn't open.");
 
@@ -52,9 +25,9 @@ public class MyAccountPageTest {
         String password = getEnvVariable("TEST_PASSWORD");
         myAccountPage.signIn(email, password);
 
-        new WebDriverWait(driver, Duration.ofSeconds(7)).until(ExpectedConditions.titleContains("Account data"));
+        new WebDriverWait(getDriver(), Duration.ofSeconds(7)).until(ExpectedConditions.titleContains("Account data"));
 
-        Assert.assertTrue(Objects.requireNonNull(driver.getTitle()).contains("Account data"),
+        Assert.assertTrue(Objects.requireNonNull(getDriver().getTitle()).contains("Account data"),
                 "User should be on Account data page.");
     }
 
@@ -64,12 +37,5 @@ public class MyAccountPageTest {
             throw new IllegalStateException(variable + " not set");
         }
         return value;
-    }
-
-    @AfterMethod
-    public void tearDown() {
-        if (driver != null) {
-            driver.quit();
-        }
     }
 }

@@ -1,25 +1,16 @@
 package com.solvd.pureSelenium.gui.pages.desktop;
 
+import com.solvd.pureSelenium.gui.common.HomePageBase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
-import java.util.List;
-
-public class HomePage {
+public class HomePage extends HomePageBase {
 
     private static final Logger LOGGER = LogManager.getLogger(HomePage.class);
-
-    protected WebDriver driver;
-
-    private final WebDriverWait wait;
 
     private static final String BASE_URL = "https://prm.com/";
 
@@ -45,13 +36,13 @@ public class HomePage {
     private WebElement myAccountLink;
 
     public HomePage(WebDriver driver) {
-        this.driver = driver;
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        super(driver, BASE_URL);
         PageFactory.initElements(driver, this);
     }
 
+    @Override
     public void open() {
-        driver.get(BASE_URL);
+        getDriver().get(BASE_URL);
         LOGGER.info("Opening PRM home page...");
 
         selectRegion();
@@ -66,13 +57,6 @@ public class HomePage {
         clickIfAppear(submitRegionButton);
     }
 
-    private void clickIfAppear(WebElement element) {
-        try {
-            wait.until(ExpectedConditions.elementToBeClickable(element)).click();
-        } catch (TimeoutException ignored) {
-        }
-    }
-
     private void clickStayingChosenRegionBtn() {
         LOGGER.info("Click on \"Stay in chosen region\" button");
         clickIfAppear(geolocationStayButton);
@@ -83,31 +67,18 @@ public class HomePage {
         clickIfAppear(rejectOptionalCookiesButton);
     }
 
-    public boolean isPageOpened() {
-        try {
-            return wait.until(ExpectedConditions.urlContains(BASE_URL));
-        } catch (TimeoutException e) {
-            return false;
-        }
-    }
-
+    @Override
     public void clickMenCategoryBtn() {
         LOGGER.debug("Click \"Men\" button");
         clickIfAppear(menCategoryButton);
     }
 
+    @Override
     public MyAccountPage goToMyAccountPage() {
         LOGGER.debug("Click \"My Account page\" link");
         clickIfAppear(myAccountLink);
         switchToNewestWindow();
 
-        return new MyAccountPage(driver);
-    }
-
-    private void switchToNewestWindow() {
-        List<String> handles = driver.getWindowHandles().stream().toList();
-        if (!handles.isEmpty()) {
-            driver.switchTo().window(handles.get(handles.size() - 1));
-        }
+        return new MyAccountPage(getDriver());
     }
 }
