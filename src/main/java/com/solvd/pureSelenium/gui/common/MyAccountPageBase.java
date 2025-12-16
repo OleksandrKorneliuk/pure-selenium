@@ -9,4 +9,8 @@ public abstract class MyAccountPageBase extends AbstractPage {
     }
 
     public abstract void signIn(String email, String password);
+
+    public abstract void createNewAccount(String email, String password);
+
+    public abstract boolean isEmailAlreadyInUseMessageAppear();
 }

@@ -55,4 +55,8 @@ public abstract class AbstractPage {
     public WebDriver getDriver() {
         return driver;
     }
+
+    public WebDriverWait getWait() {
+        return wait;
+    }
 }

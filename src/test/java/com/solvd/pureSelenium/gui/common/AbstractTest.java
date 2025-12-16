@@ -32,6 +32,7 @@ public abstract class AbstractTest {
 
         WebDriver driver = new RemoteWebDriver(new URL(gridURL), capabilities);
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(PAGE_LOAD_TO));
+        driver.manage().window().maximize();
 
         drivers.set(driver);
     }

@@ -13,4 +13,6 @@ public abstract class HomePageBase extends AbstractPage {
     public abstract void clickMenCategoryBtn();
 
     public abstract MyAccountPageBase goToMyAccountPage();
+
+    public abstract SearchResultsPageBase searchProduct(String productName);
 }

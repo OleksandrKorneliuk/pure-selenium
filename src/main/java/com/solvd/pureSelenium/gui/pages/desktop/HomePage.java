@@ -2,10 +2,12 @@ package com.solvd.pureSelenium.gui.pages.desktop;
 
 import com.solvd.pureSelenium.gui.common.HomePageBase;
 import com.solvd.pureSelenium.gui.common.MyAccountPageBase;
+import com.solvd.pureSelenium.gui.common.SearchResultsPageBase;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,6 +37,15 @@ public class HomePage extends HomePageBase {
 
     @FindBy(css = "a[data-test='my_account_icon']")
     private WebElement myAccountLink;
+
+    @FindBy(css = "button[data-test='search_icon']")
+    private WebElement searchIcon;
+
+    @FindBy(css = "div.Header__innerTransparentChild__Hok1n input[data-test='search_input']")
+    private WebElement searchInput;
+
+    @FindBy(css = "div.Header__innerTransparentChild__Hok1n button[data-test='search_button']")
+    private WebElement searchButton;
 
     public HomePage(WebDriver driver) {
         super(driver, BASE_URL);
@@ -81,5 +92,18 @@ public class HomePage extends HomePageBase {
         switchToNewestWindow();
 
         return new MyAccountPage(getDriver());
+    }
+
+    @Override
+    public SearchResultsPageBase searchProduct(String productName) {
+        clickIfAppear(searchIcon);
+        clickIfAppear(searchInput);
+
+        searchInput.sendKeys(".");
+        getWait().until(ExpectedConditions.attributeContains(searchInput, "value", "."));
+        searchInput.sendKeys(productName);
+        clickIfAppear(searchButton);
+
+        return new SearchResultsPage(getDriver());
     }
 }
