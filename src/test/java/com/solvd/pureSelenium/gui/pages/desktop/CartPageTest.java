@@ -1,9 +1,6 @@
 package com.solvd.pureSelenium.gui.pages.desktop;
 
 import com.solvd.pureSelenium.gui.common.AbstractTest;
-import com.solvd.pureSelenium.gui.common.CartPageBase;
-import com.solvd.pureSelenium.gui.common.ProductPageBase;
-import com.solvd.pureSelenium.gui.common.SearchResultsPageBase;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -16,14 +13,15 @@ public class CartPageTest extends AbstractTest {
         Assert.assertTrue(homePage.isPageOpened(), "Home page didn't open.");
 
         homePage.clickMenCategoryBtn();
-        SearchResultsPageBase searchResultsPage = homePage.searchProduct("Carhartt caps");
+        SearchResultsPage searchResultsPage = homePage.searchProduct("Puma caps");
         Assert.assertTrue(searchResultsPage.isPageOpened(), "Search results page didn't open.");
 
-        ProductPageBase productPage = searchResultsPage.selectFirstProductItem();
-        Assert.assertTrue(productPage.isPageOpened(), "Product page didn't open.");
-        productPage.clickAddToCartButton();
+        ProductListPage productListPage = searchResultsPage.selectFirstProductItem();
+        productListPage.closePopUpIfAppears();
+        Assert.assertTrue(productListPage.isPageOpened(), "Product page didn't open.");
+        productListPage.clickAddToCartButton();
 
-        CartPageBase cartPage = productPage.goToCartPage();
+        CartPage cartPage = productListPage.goToCartPage();
         Assert.assertTrue(cartPage.isPageOpened(), "Cart page didn't open.");
         Assert.assertTrue(cartPage.isItemPresentInCart(), "Item isn't present in the cart.");
     }
@@ -35,14 +33,15 @@ public class CartPageTest extends AbstractTest {
         Assert.assertTrue(homePage.isPageOpened(), "Home page didn't open.");
 
         homePage.clickMenCategoryBtn();
-        SearchResultsPageBase searchResultsPage = homePage.searchProduct("Carhartt caps");
+        SearchResultsPage searchResultsPage = homePage.searchProduct("Puma caps");
         Assert.assertTrue(searchResultsPage.isPageOpened(), "Search results page didn't open.");
 
-        ProductPageBase productPage = searchResultsPage.selectFirstProductItem();
-        Assert.assertTrue(productPage.isPageOpened(), "Product page didn't open.");
-        productPage.clickAddToCartButton();
+        ProductListPage productListPage = searchResultsPage.selectFirstProductItem();
+        productListPage.closePopUpIfAppears();
+        Assert.assertTrue(productListPage.isPageOpened(), "Product page didn't open.");
+        productListPage.clickAddToCartButton();
 
-        CartPageBase cartPage = productPage.goToCartPage();
+        CartPage cartPage = productListPage.goToCartPage();
         Assert.assertTrue(cartPage.isPageOpened(), "Cart page didn't open.");
         Assert.assertTrue(cartPage.isItemPresentInCart(), "Item isn't present in the cart.");
 

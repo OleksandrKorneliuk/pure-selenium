@@ -4,7 +4,7 @@ import com.solvd.pureSelenium.gui.common.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import static com.solvd.pureSelenium.gui.utils.SystemUtils.getEnvVariable;
+import static com.solvd.pureSelenium.gui.utils.SystemUtils.*;
 
 public class CheckoutPageTest extends AbstractTest {
 
@@ -15,23 +15,26 @@ public class CheckoutPageTest extends AbstractTest {
         Assert.assertTrue(homePage.isPageOpened(), "Home page didn't open.");
 
         homePage.clickMenCategoryBtn();
-        SearchResultsPageBase searchResultsPage = homePage.searchProduct("Carhartt caps");
+        SearchResultsPage searchResultsPage = homePage.searchProduct("Puma caps");
         Assert.assertTrue(searchResultsPage.isPageOpened(), "Search results page didn't open.");
 
-        ProductPageBase productPage = searchResultsPage.selectFirstProductItem();
-        Assert.assertTrue(productPage.isPageOpened(), "Product page didn't open.");
-        productPage.clickAddToCartButton();
+        ProductListPage productListPage = searchResultsPage.selectFirstProductItem();
+        productListPage.closePopUpIfAppears();
+        Assert.assertTrue(productListPage.isPageOpened(), "Product page didn't open.");
+        productListPage.clickAddToCartButton();
 
-        CartPageBase cartPage = productPage.goToCartPage();
+        CartPage cartPage = productListPage.goToCartPage();
         Assert.assertTrue(cartPage.isPageOpened(), "Cart page didn't open.");
         Assert.assertTrue(cartPage.isItemPresentInCart(), "Item isn't present in the cart.");
+        cartPage.goToCheckout();
 
-        CheckoutPageBase checkoutPage = cartPage.goToCheckout();
-        MyAccountPageBase myAccountPage = new MyAccountPage(getDriver());
+        String email = getTestEmail();
+        String password = getTestPassword();
 
-        String email = getEnvVariable("TEST_EMAIL");
-        String password = getEnvVariable("TEST_PASSWORD");
+        MyAccountPage myAccountPage = new MyAccountPage(getDriver());
         myAccountPage.signIn(email, password);
+
+        CheckoutPage checkoutPage = new CheckoutPage(getDriver());
 
         Assert.assertTrue(checkoutPage.isPageOpened(), "Checkout page didn't open.");
         Assert.assertTrue(checkoutPage.isCustomerDetailsPresent(), "Customer details isn't present.");

@@ -1,5 +1,6 @@
 package com.solvd.pureSelenium.gui.common;
 
+import com.solvd.pureSelenium.gui.utils.ConfigReader;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -23,8 +24,8 @@ public abstract class AbstractPage {
 
     public AbstractPage(WebDriver driver, String baseURL) {
         this.driver = driver;
-        this.BASE_URL = baseURL;
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        this.BASE_URL = ConfigReader.getBaseUrl() + baseURL;
+        wait = new WebDriverWait(driver, Duration.ofSeconds(15));
     }
 
     public boolean clickIfAppear(WebElement element) {
@@ -35,6 +36,11 @@ public abstract class AbstractPage {
             LOGGER.warn("Element is not clickable within the timeout: {}", element);
             return false;
         }
+    }
+
+    public void open() {
+        LOGGER.info("Opening page: {}", BASE_URL);
+        driver.get(BASE_URL);
     }
 
     public boolean isPageOpened() {
