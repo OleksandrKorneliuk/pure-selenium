@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Product extends BaseComponent {
+public class ProductListItemComponent extends BaseComponent {
 
     private static final Pattern PRICE_PATTERN = Pattern.compile("(\\d+(?:\\.\\d+)?)");
 
@@ -15,7 +15,7 @@ public class Product extends BaseComponent {
 
     private final By productPrice = By.cssSelector("div[data-test='priceSaleWithoutMinimalDesktop']");
 
-    public Product(WebElement root) {
+    public ProductListItemComponent(WebElement root) {
         super(root);
     }
 

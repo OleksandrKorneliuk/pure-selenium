@@ -35,7 +35,7 @@ public class HomePage extends AbstractPage {
     private WebElement searchButton;
 
     public HomePage(WebDriver driver) {
-        super(driver, "");
+        super(driver);
         PageFactory.initElements(driver, this);
     }
 

@@ -28,9 +28,13 @@ public class ConfigReader {
     private ConfigReader() {}
 
     public static String getBaseUrl() {
+        return getProperty("base_url");
+    }
+
+    public static String getProperty(String key) {
         return System.getProperty(
-                "base_url",
-                PROPERTIES.getProperty("base_url")
+                key,
+                PROPERTIES.getProperty(key)
         );
     }
 }

@@ -22,9 +22,15 @@ public abstract class AbstractPage {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractPage.class);
 
-    public AbstractPage(WebDriver driver, String baseURL) {
+    public AbstractPage(WebDriver driver) {
         this.driver = driver;
-        this.BASE_URL = ConfigReader.getBaseUrl() + baseURL;
+        this.BASE_URL = ConfigReader.getBaseUrl();
+        wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+    }
+
+    public AbstractPage(WebDriver driver, String pagePath) {
+        this.driver = driver;
+        this.BASE_URL = ConfigReader.getBaseUrl() + pagePath;
         wait = new WebDriverWait(driver, Duration.ofSeconds(15));
     }
 

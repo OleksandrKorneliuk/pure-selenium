@@ -1,7 +1,7 @@
 package com.solvd.pureSelenium.gui.pages.desktop;
 
 import com.solvd.pureSelenium.gui.common.AbstractPage;
-import com.solvd.pureSelenium.gui.components.Product;
+import com.solvd.pureSelenium.gui.components.ProductListItemComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -38,19 +38,19 @@ public class SearchResultsPage extends AbstractPage {
         PageFactory.initElements(driver, this);
     }
 
-    private List<Product> getProducts() {
+    private List<ProductListItemComponent> getProducts() {
         List<WebElement> cards = getWait().until(
                 ExpectedConditions.visibilityOfAllElementsLocatedBy(productsLocator)
         );
 
         return cards.stream()
-                .map(Product::new)
+                .map(ProductListItemComponent::new)
                 .limit(MAX_CHECKED_PRODUCTS_NUMBER)
                 .toList();
     }
 
     public boolean doResultsContainsKeywords(List<String> keywords) {
-        List<Product> products = getProducts();
+        List<ProductListItemComponent> products = getProducts();
 
         if (products.isEmpty()) {
             LOGGER.debug("No products found on page.");
@@ -58,7 +58,7 @@ public class SearchResultsPage extends AbstractPage {
         }
 
         return products.stream()
-                .map(Product::getName)
+                .map(ProductListItemComponent::getName)
                 .allMatch(name -> containsAllKeywords(name, keywords));
     }
 
@@ -76,7 +76,7 @@ public class SearchResultsPage extends AbstractPage {
     }
 
     public boolean isSortedByLowestPrice() {
-        List<Product> products = getProducts();
+        List<ProductListItemComponent> products = getProducts();
 
         if (products.isEmpty()) {
             LOGGER.debug("No products found on page.");
@@ -98,7 +98,7 @@ public class SearchResultsPage extends AbstractPage {
     }
 
     public ProductListPage selectFirstProductItem() {
-        Product firstProduct = getProducts().get(0);
+        ProductListItemComponent firstProduct = getProducts().get(0);
         firstProduct.click();
         return new ProductListPage(getDriver());
     }

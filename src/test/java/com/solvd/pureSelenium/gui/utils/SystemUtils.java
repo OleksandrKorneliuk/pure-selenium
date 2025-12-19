@@ -29,11 +29,14 @@ public class SystemUtils {
     }
 
     public static String getTestEmail() {
-        String testEmail = System.getProperty(
-                "test_email",
-                PROPERTIES.getProperty("test_email")
+        return getEnvVariable(getCredential("test_email"));
+    }
+
+    private static String getCredential(String propertyKey) {
+        return System.getProperty(
+                propertyKey,
+                PROPERTIES.getProperty(propertyKey)
         );
-        return getEnvVariable(testEmail);
     }
 
     private static String getEnvVariable(String variable) {
@@ -45,10 +48,6 @@ public class SystemUtils {
     }
 
     public static String getTestPassword() {
-        String testPassword = System.getProperty(
-                "test_password",
-                PROPERTIES.getProperty("test_password")
-        );
-        return getEnvVariable(testPassword);
+        return getEnvVariable(getCredential("test_password"));
     }
 }
