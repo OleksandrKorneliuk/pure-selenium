@@ -1,13 +1,16 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
-<suite name="Suite" parallel="methods" thread-count="4">
+<suite name="Suite" parallel="methods" thread-count="8">
 
     <parameter name="browser" value="chrome"/>
     <parameter name="grid_url" value="http://localhost:4444/wd/hub"/>
 
     <test name="Regression">
         <classes>
-            <class name="com.solvd.pureSelenium.gui.pages.desktop.HomePageTest"/>
-            <class name="com.solvd.pureSelenium.gui.pages.desktop.MyAccountPageTest"/>
+<!--            <class name="com.solvd.pureSelenium.gui.pages.desktop.HomePageTest"/>-->
+<!--            <class name="com.solvd.pureSelenium.gui.pages.desktop.MyAccountPageTest"/>-->
+            <class name="com.solvd.pureSelenium.gui.pages.desktop.SearchResultsPageTest"/>
+<!--            <class name="com.solvd.pureSelenium.gui.pages.desktop.CartPageTest"/>-->
+<!--            <class name="com.solvd.pureSelenium.gui.pages.desktop.CheckoutPageTest"/>-->
         </classes>
     </test>
 </suite>

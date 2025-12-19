@@ -1,28 +1,17 @@
 package com.solvd.pureSelenium.gui.pages.desktop;
 
-import com.solvd.pureSelenium.gui.common.HomePageBase;
-import com.solvd.pureSelenium.gui.common.MyAccountPageBase;
+import com.solvd.pureSelenium.gui.common.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class HomePage extends HomePageBase {
+public class HomePage extends AbstractPage {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HomePage.class);
-
-    private static final String BASE_URL = "https://prm.com/";
-
-    @FindBy(css = "div > img[alt='dropdown button']")
-    private WebElement countrySelector;
-
-    @FindBy(css = "a[href='/us']")
-    private WebElement usRegionLink;
-
-    @FindBy(css = "button.DropdownList_dropdownSubmitButton__FNidW")
-    private WebElement submitRegionButton;
 
     @FindBy(css = "button[data-test='cookiesAcceptMandatoryButton']")
     private WebElement rejectOptionalCookiesButton;
@@ -36,26 +25,25 @@ public class HomePage extends HomePageBase {
     @FindBy(css = "a[data-test='my_account_icon']")
     private WebElement myAccountLink;
 
+    @FindBy(css = "button[data-test='search_icon']")
+    private WebElement searchIcon;
+
+    @FindBy(css = "div.Header__innerTransparentChild__Hok1n input[data-test='search_input']")
+    private WebElement searchInput;
+
+    @FindBy(css = "div.Header__innerTransparentChild__Hok1n button[data-test='search_button']")
+    private WebElement searchButton;
+
     public HomePage(WebDriver driver) {
-        super(driver, BASE_URL);
+        super(driver);
         PageFactory.initElements(driver, this);
     }
 
-    @Override
     public void open() {
-        getDriver().get(BASE_URL);
-        LOGGER.info("Opening PRM home page...");
+        super.open();
 
-        selectRegion();
         clickStayingChosenRegionBtn();
         clickRejectOptionalCookiesBtn();
-    }
-
-    private void selectRegion() {
-        LOGGER.info("Choosing region...");
-        clickIfAppear(countrySelector);
-        clickIfAppear(usRegionLink);
-        clickIfAppear(submitRegionButton);
     }
 
     private void clickStayingChosenRegionBtn() {
@@ -68,18 +56,28 @@ public class HomePage extends HomePageBase {
         clickIfAppear(rejectOptionalCookiesButton);
     }
 
-    @Override
     public void clickMenCategoryBtn() {
         LOGGER.debug("Click \"Men\" button");
         clickIfAppear(menCategoryButton);
     }
 
-    @Override
-    public MyAccountPageBase goToMyAccountPage() {
+    public MyAccountPage goToMyAccountPage() {
         LOGGER.debug("Click \"My Account page\" link");
         clickIfAppear(myAccountLink);
         switchToNewestWindow();
 
         return new MyAccountPage(getDriver());
+    }
+
+    public SearchResultsPage searchProduct(String productName) {
+        clickIfAppear(searchIcon);
+        clickIfAppear(searchInput);
+
+        searchInput.sendKeys(".");
+        getWait().until(ExpectedConditions.attributeContains(searchInput, "value", "."));
+        searchInput.sendKeys(productName);
+        clickIfAppear(searchButton);
+
+        return new SearchResultsPage(getDriver());
     }
 }
