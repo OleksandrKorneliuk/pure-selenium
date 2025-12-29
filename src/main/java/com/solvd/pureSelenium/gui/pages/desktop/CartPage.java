@@ -1,11 +1,9 @@
 package com.solvd.pureSelenium.gui.pages.desktop;
 
 import com.solvd.pureSelenium.gui.common.AbstractPage;
+import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,46 +11,42 @@ public class CartPage extends AbstractPage {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CartPage.class);
 
-    private static final String PAGE_PATH = "/cart";
-
     @FindBy(css = "div[data-test='cartItem']")
-    private WebElement cartItem;
+    private ExtendedWebElement cartItem;
 
     @FindBy(css = "button[data-test='cartRemoveItem']")
-    private WebElement removeItemButton;
+    private ExtendedWebElement removeItemButton;
 
     @FindBy(css = "span[class*='emptyCartHeaderText']")
-    private WebElement cartIsEmptyLabel;
+    private ExtendedWebElement cartIsEmptyLabel;
 
     @FindBy(css = "[data-test='cartEmpty'] .btn.btnPrimary")
-    private WebElement homePageButton;
+    private ExtendedWebElement homePageButton;
 
     @FindBy(css = "a[class='btn btnPrimary btnFluid']")
-    private WebElement goToCheckoutButton;
+    private ExtendedWebElement goToCheckoutButton;
 
     public CartPage(WebDriver driver) {
-        super(driver, PAGE_PATH);
-        PageFactory.initElements(driver, this);
+        super(driver);
     }
 
     public boolean isItemPresentInCart() {
-        getWait().until(ExpectedConditions.visibilityOf(cartItem));
-        return cartItem.isDisplayed();
+        return cartItem.isPresent();
     }
 
     public void removeItemFromCart() {
         LOGGER.info("Click on \"Remove item\" button");
-        clickIfAppear(removeItemButton);
+        removeItemButton.clickIfPresent();
     }
 
     public boolean isCartEmpty() {
-        getWait().until(ExpectedConditions.visibilityOf(cartIsEmptyLabel));
+        cartIsEmptyLabel.isVisible(1500);
         return cartIsEmptyLabel.isDisplayed() && homePageButton.isDisplayed();
     }
 
     public CheckoutPage goToCheckout() {
         LOGGER.info("Click on \"Checkout\" button");
-        clickIfAppear(goToCheckoutButton);
+        goToCheckoutButton.clickIfPresent();
         return new CheckoutPage(getDriver());
     }
 }

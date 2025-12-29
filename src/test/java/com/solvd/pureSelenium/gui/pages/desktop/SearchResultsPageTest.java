@@ -1,13 +1,13 @@
 package com.solvd.pureSelenium.gui.pages.desktop;
 
-import com.solvd.pureSelenium.gui.common.AbstractTest;
+import com.zebrunner.carina.core.IAbstractTest;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.List;
 
-public class SearchResultsPageTest extends AbstractTest {
+public class SearchResultsPageTest implements IAbstractTest {
 
     @DataProvider
     public Object[][] getQueriesAndResults() {

@@ -2,11 +2,11 @@ package com.solvd.pureSelenium.gui.pages.desktop;
 
 import com.solvd.pureSelenium.gui.common.AbstractPage;
 import com.solvd.pureSelenium.gui.components.ProductListItemComponent;
+import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,18 +24,21 @@ public class SearchResultsPage extends AbstractPage {
 
     private final By productsLocator = By.cssSelector("div[data-test='productCard']");
 
+    @FindBy(css = "div[data-test='productCard']")
+    private List<ProductListItemComponent> products;
+
     @FindBy(css = "div[data-test='productSortDropdown']")
-    private WebElement productSortDropdown;
+    private ExtendedWebElement productSortDropdown;
 
     @FindBy(css = "label[for='price_asc_radio_0']")
-    private WebElement fromLowestPriceFilter;
+    private ExtendedWebElement fromLowestPriceFilter;
 
     @FindBy(css = "button[data-test='selectSubmit']")
-    private WebElement submitFilterButton;
+    private ExtendedWebElement submitFilterButton;
 
     public SearchResultsPage(WebDriver driver) {
-        super(driver, PAGE_PATH);
-        PageFactory.initElements(driver, this);
+        super(driver);
+        setPageURL(PAGE_PATH);
     }
 
     private List<ProductListItemComponent> getProducts() {
@@ -70,9 +73,9 @@ public class SearchResultsPage extends AbstractPage {
     }
 
     public void selectFromLowestPriceFilter() {
-        clickIfAppear(productSortDropdown);
+        productSortDropdown.clickIfPresent();
         fromLowestPriceFilter.click();
-        clickIfAppear(submitFilterButton);
+        submitFilterButton.clickIfPresent();
     }
 
     public boolean isSortedByLowestPrice() {
@@ -98,7 +101,7 @@ public class SearchResultsPage extends AbstractPage {
     }
 
     public ProductListPage selectFirstProductItem() {
-        ProductListItemComponent firstProduct = getProducts().get(0);
+        ProductListItemComponent firstProduct = getProducts().getFirst();
         firstProduct.click();
         return new ProductListPage(getDriver());
     }
