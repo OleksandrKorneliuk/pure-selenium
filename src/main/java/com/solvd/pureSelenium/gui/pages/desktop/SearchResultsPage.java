@@ -1,8 +1,9 @@
 package com.solvd.pureSelenium.gui.pages.desktop;
 
-import com.solvd.pureSelenium.gui.common.AbstractPage;
+import com.solvd.pureSelenium.gui.common.BasePage;
 import com.solvd.pureSelenium.gui.components.ProductListItemComponent;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
+import com.zebrunner.carina.webdriver.decorator.PageOpeningStrategy;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -14,7 +15,7 @@ import org.slf4j.LoggerFactory;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class SearchResultsPage extends AbstractPage {
+public class SearchResultsPage extends BasePage {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SearchResultsPage.class);
 
@@ -38,6 +39,7 @@ public class SearchResultsPage extends AbstractPage {
 
     public SearchResultsPage(WebDriver driver) {
         super(driver);
+        setPageOpeningStrategy(PageOpeningStrategy.BY_URL);
         setPageURL(PAGE_PATH);
     }
 

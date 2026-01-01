@@ -1,13 +1,14 @@
 package com.solvd.pureSelenium.gui.pages.desktop;
 
-import com.solvd.pureSelenium.gui.common.AbstractPage;
+import com.solvd.pureSelenium.gui.common.BasePage;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
+import com.zebrunner.carina.webdriver.decorator.PageOpeningStrategy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MyAccountPage extends AbstractPage {
+public class MyAccountPage extends BasePage {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MyAccountPage.class);
 
@@ -35,10 +36,11 @@ public class MyAccountPage extends AbstractPage {
     private ExtendedWebElement createAccountButton;
 
     @FindBy(css = "[data-test='registerStep'] span.fieldError")
-    private ExtendedWebElement emailAlreadyInUseError;
+    private ExtendedWebElement emailAlreadyInUseErrorMessage;
 
     public MyAccountPage(WebDriver driver) {
         super(driver);
+        setPageOpeningStrategy(PageOpeningStrategy.BY_URL);
         setPageURL(PAGE_PATH);
     }
 
@@ -67,6 +69,6 @@ public class MyAccountPage extends AbstractPage {
     }
 
     public boolean isEmailAlreadyInUseMessageAppear() {
-        return emailAlreadyInUseError.isElementPresent(2000);
+        return emailAlreadyInUseErrorMessage.isElementPresent(2000);
     }
 }

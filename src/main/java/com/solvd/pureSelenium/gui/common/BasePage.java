@@ -2,6 +2,8 @@ package com.solvd.pureSelenium.gui.common;
 
 import com.zebrunner.carina.utils.R;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
+import com.zebrunner.carina.webdriver.decorator.PageOpeningStrategy;
+import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -13,11 +15,11 @@ import org.slf4j.LoggerFactory;
 import java.time.Duration;
 import java.util.List;
 
-public abstract class AbstractPage extends com.zebrunner.carina.webdriver.gui.AbstractPage {
+public abstract class BasePage extends AbstractPage {
 
     public final WebDriverWait wait;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractPage.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BasePage.class);
 
     @FindBy(css = "button[data-test='cookiesAcceptMandatoryButton']")
     private ExtendedWebElement rejectOptionalCookiesButton;
@@ -25,7 +27,7 @@ public abstract class AbstractPage extends com.zebrunner.carina.webdriver.gui.Ab
     @FindBy(css = "button[data-test='geolocationPopupStayButton']")
     private ExtendedWebElement geolocationStayButton;
 
-    public AbstractPage(WebDriver driver) {
+    public BasePage(WebDriver driver) {
         super(driver);
         wait = new WebDriverWait(driver, Duration.ofSeconds(15));
     }
@@ -42,8 +44,31 @@ public abstract class AbstractPage extends com.zebrunner.carina.webdriver.gui.Ab
 
     @Override
     public boolean isPageOpened() {
+        switch (getPageOpeningStrategy()) {
+            case BY_URL_AND_ELEMENT:
+                return isUrlAndUiLoadedMarkerPresent();
+            case BY_ELEMENT:
+                return isUILoadedMarkerPresent();
+            default:
+                return isUrlContainsPagePath();
+        }
+    }
+
+    private boolean isUrlAndUiLoadedMarkerPresent() {
+        return isUrlContainsPagePath() && isUILoadedMarkerPresent();
+    }
+
+    private boolean isUrlContainsPagePath() {
         try {
-            return wait.until(ExpectedConditions.urlContains(getBaseURL()));
+            return wait.until(ExpectedConditions.urlContains(getPageURL()));
+        } catch (TimeoutException e) {
+            return false;
+        }
+    }
+
+    private boolean isUILoadedMarkerPresent() {
+        try {
+            return getUiLoadedMarker().isPresent(2000);
         } catch (TimeoutException e) {
             return false;
         }
