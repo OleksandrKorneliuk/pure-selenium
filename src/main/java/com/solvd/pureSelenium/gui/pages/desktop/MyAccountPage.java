@@ -40,7 +40,6 @@ public class MyAccountPage extends BasePage {
 
     public MyAccountPage(WebDriver driver) {
         super(driver);
-        setPageOpeningStrategy(PageOpeningStrategy.BY_URL);
         setPageURL(PAGE_PATH);
     }
 

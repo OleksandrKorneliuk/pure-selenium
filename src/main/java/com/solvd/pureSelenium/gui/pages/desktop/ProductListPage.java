@@ -28,7 +28,6 @@ public class ProductListPage extends BasePage {
 
     public ProductListPage(WebDriver driver) {
         super(driver);
-        setPageOpeningStrategy(PageOpeningStrategy.BY_URL);
         setPageURL(PAGE_PATH);
     }
 

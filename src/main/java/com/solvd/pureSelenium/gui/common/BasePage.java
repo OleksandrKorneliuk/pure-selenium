@@ -29,6 +29,7 @@ public abstract class BasePage extends AbstractPage {
 
     public BasePage(WebDriver driver) {
         super(driver);
+        setPageOpeningStrategy(PageOpeningStrategy.BY_URL);
         wait = new WebDriverWait(driver, Duration.ofSeconds(15));
     }
 

@@ -31,7 +31,6 @@ public class CartPage extends BasePage {
 
     public CartPage(WebDriver driver) {
         super(driver);
-        setPageOpeningStrategy(PageOpeningStrategy.BY_URL);
         setPageURL(PAGE_PATH);
     }
 

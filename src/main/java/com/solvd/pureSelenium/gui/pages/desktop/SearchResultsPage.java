@@ -39,7 +39,6 @@ public class SearchResultsPage extends BasePage {
 
     public SearchResultsPage(WebDriver driver) {
         super(driver);
-        setPageOpeningStrategy(PageOpeningStrategy.BY_URL);
         setPageURL(PAGE_PATH);
     }
 
