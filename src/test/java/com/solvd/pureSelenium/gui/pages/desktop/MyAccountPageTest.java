@@ -1,6 +1,6 @@
 package com.solvd.pureSelenium.gui.pages.desktop;
 
-import com.solvd.pureSelenium.gui.common.AbstractTest;
+import com.zebrunner.carina.core.IAbstractTest;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -11,7 +11,7 @@ import java.util.Objects;
 
 import static com.solvd.pureSelenium.gui.utils.SystemUtils.*;
 
-public class MyAccountPageTest extends AbstractTest {
+public class MyAccountPageTest implements IAbstractTest {
 
     @Test
     public void testUserSignIn() {

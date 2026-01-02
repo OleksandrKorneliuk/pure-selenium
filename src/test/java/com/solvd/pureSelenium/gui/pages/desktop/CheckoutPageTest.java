@@ -1,12 +1,13 @@
 package com.solvd.pureSelenium.gui.pages.desktop;
 
-import com.solvd.pureSelenium.gui.common.*;
+import com.zebrunner.carina.core.IAbstractTest;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import static com.solvd.pureSelenium.gui.utils.SystemUtils.*;
+import static com.solvd.pureSelenium.gui.utils.SystemUtils.getTestEmail;
+import static com.solvd.pureSelenium.gui.utils.SystemUtils.getTestPassword;
 
-public class CheckoutPageTest extends AbstractTest {
+public class CheckoutPageTest implements IAbstractTest {
 
     @Test
     public void testDeliveryDetailsIsAvailable() {

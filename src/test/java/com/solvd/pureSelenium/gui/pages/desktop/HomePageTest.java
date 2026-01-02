@@ -1,12 +1,12 @@
 package com.solvd.pureSelenium.gui.pages.desktop;
 
-import com.solvd.pureSelenium.gui.common.AbstractTest;
+import com.zebrunner.carina.core.IAbstractTest;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
 import java.util.Objects;
 
-public class HomePageTest extends AbstractTest {
+public class HomePageTest implements IAbstractTest {
 
     @Test
     public void testNavigateToMenCategory() {

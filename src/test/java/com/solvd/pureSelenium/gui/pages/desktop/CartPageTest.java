@@ -1,10 +1,10 @@
 package com.solvd.pureSelenium.gui.pages.desktop;
 
-import com.solvd.pureSelenium.gui.common.AbstractTest;
+import com.zebrunner.carina.core.IAbstractTest;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class CartPageTest extends AbstractTest {
+public class CartPageTest implements IAbstractTest {
 
     @Test
     public void testAddProductToCart() {
